@@ -1,5 +1,6 @@
 "use client";
 
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import { memo } from "react";
 
@@ -9,7 +10,11 @@ interface TodoInter {
   isDone: boolean;
 }
 
-const update = async (id, isDone, refresh) => {
+const update = async (
+  id: number,
+  isDone: boolean,
+  refresh: AppRouterInstance["refresh"]
+) => {
   await fetch("/api/", {
     method: "POST",
     body: JSON.stringify({ id, isDone }),
@@ -18,7 +23,7 @@ const update = async (id, isDone, refresh) => {
   refresh();
 };
 
-async function deleteTodo(id, refresh) {
+async function deleteTodo(id: number, refresh: AppRouterInstance["refresh"]) {
   await fetch("/api/", {
     method: "DELETE",
   });

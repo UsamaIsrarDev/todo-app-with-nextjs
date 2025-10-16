@@ -1,9 +1,10 @@
 "use client";
 
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useRouter } from "next/navigation";
 import { memo, useState } from "react";
 
-async function addTodo(name, refresh) {
+async function addTodo(name: string, refresh: AppRouterInstance["refresh"]) {
   await fetch("/api/todo", {
     method: "POST",
     body: JSON.stringify({ name }),
