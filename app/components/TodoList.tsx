@@ -3,7 +3,7 @@ import { todoData } from "../static/data.js";
 import Todo from "./Todo";
 
 // const getTodos = async () => {
-//   let todos = await fetch("");
+//   let todos = await fetch("http://localhost:3000/");
 
 //   return todos.json();
 // };

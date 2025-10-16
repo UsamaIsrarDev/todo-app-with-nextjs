@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { memo } from "react";
 
 interface TodoInter {
@@ -8,26 +9,43 @@ interface TodoInter {
   isDone: boolean;
 }
 
-const update = async ({ id, isDone }) => {
-  await fetch("", {
+const update = async (id, isDone, refresh) => {
+  await fetch("/api/", {
     method: "POST",
-    mode: "no-cors",
     body: JSON.stringify({ id, isDone }),
   });
+
+  refresh();
 };
 
+async function deleteTodo(id, refresh) {
+  await fetch("/api/", {
+    method: "DELETE",
+  });
+
+  refresh();
+}
+
 const Todo = ({ todo }: { todo: TodoInter }) => {
+  const router = useRouter();
+
   return (
     <>
       <input
         type="checkbox"
         onChange={(e) => {
-          update(todo.id, e.target.checked);
+          update(todo.id, e.target.checked, router.refresh);
         }}
         checked={todo.isDone}
       />
       {todo?.name}
-      <button>Delete</button>
+      <button
+        onClick={() => {
+          deleteTodo(todo.id, router.refresh);
+        }}
+      >
+        Delete
+      </button>
     </>
   );
 };
